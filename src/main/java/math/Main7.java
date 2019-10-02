@@ -1,5 +1,6 @@
 package math;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
@@ -28,44 +29,39 @@ import java.util.Scanner;
     42 = 5 + 37
  */
 public class Main7 {
+    private static final int MAX = 1000000;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int[] noArr = new int[n];
-        boolean[] checkArr = new boolean[n];
-        for (int i = 0; i < n; i++) {
-            noArr[i] = i + 1;
-        }
-        for (int i = 0; i < n; i++) {
-            if (prime(noArr[i])) {
-                checkArr[i] = true;
+        boolean[] check = new boolean[MAX + 1];
+        check[0] = check[1] = true;
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for (int i = 2; i * i <= MAX; i++) {
+            if (check[i]) {
+                continue;
+            }
+            list.add(i);
+            for (int j = i + i; j <= MAX ; j += i) {
+                check[j] = true;
             }
         }
-        for (int i = 0; i < n; i+=2) {
-            if (checkArr[i]) {
-                for (int j = i; j < n; j+=2) {
-                    if (checkArr[j]) {
-                        if ((noArr[i] + noArr[j]) == n) {
-                            System.out.println(n + " = " + noArr[i] + " + " + noArr[j]);
-                            return;
-                        }
-                    }
+
+        while (true) {
+            int n = scanner.nextInt();
+
+            if (n == 0) {
+                break;
+            }
+
+            // 0 번째는 2부터 시작이니 홀수인 1부터 시작
+            for (int i = 1; i < list.size(); i++) {
+                int p = list.get(i);    // 소수
+                if (check[n - p] == false) {    // 합의 대상 찾기, 작은것부터 찾으니 b-a가 가장 큰 것 이라는 조건 성립
+                    System.out.println(n + " = " + p + " + " + (n - p));
+                    break;
                 }
             }
         }
-    }
-
-    public static boolean prime(int n) {
-        if (n < 2) {
-            return false;
-        }
-        for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }
