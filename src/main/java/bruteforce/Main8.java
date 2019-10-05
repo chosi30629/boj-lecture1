@@ -8,9 +8,9 @@ public class Main8 {
     /*
     재귀함수 이용
      */
-    public static ArrayList<Integer> lotto = new ArrayList<Integer>();
-    public static void solve(int[] a, int index, int cnt) {
-        if (cnt == 6) {
+    public static ArrayList<Integer> lotto = new ArrayList<Integer>();  // 실제로 어떤 수를 골랐는지 담는 배열
+    public static void solve(int[] a, int index, int cnt) { // 선택해야하는 수, 인덱스, 고른 수
+        if (cnt == 6) { // 정답인경우
             for (int num : lotto) {
                 System.out.print(num + " ");
             }
@@ -18,13 +18,15 @@ public class Main8 {
             return;
         }
         int n = a.length;
-        if (n == index) {
+        if (n == index) {   // 더이상 선택할 수 있는 수가 없으니 불가능
             return;
         }
+        // 인덱스번째를 선택하는 경우
         lotto.add(a[index]);
         solve(a, index + 1, cnt + 1);
-        lotto.remove(lotto.size() - 1);
-        solve(a, index + 1, cnt);
+        lotto.remove(lotto.size() - 1); // 위의 탐색이 끝나 인덱스번째를 모두 선택했으면 빼야함
+        // 인덱스번째를 선택하지 않는 경우
+        solve(a, index + 1, cnt);   // 선택하지 않은 경우가 선택한 경우보다 위에 오면 사전순으로 어긋남
     }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
