@@ -30,7 +30,7 @@ public class Main15 {
             a[i] = scanner.nextInt();
         }
         int ans = 0;
-        for (int i = 1; i < (1 << n); i++) {
+        for (int i = 1; i < (1 << n); i++) { // 공집합은 제외해야하므로 1부터 시작
             int sum = 0;
             for (int j = 0; j < n; j++) {
                 if ((i & (1 << j)) != 0) {

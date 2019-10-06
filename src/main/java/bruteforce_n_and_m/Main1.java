@@ -1,0 +1,73 @@
+package bruteforce_n_and_m;
+
+import java.util.Scanner;
+
+/*
+    문제
+        자연수 N과 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오.
+        1부터 N까지 자연수 중에서 중복 없이 M개를 고른 수열
+    입력
+        첫째 줄에 자연수 N과 M이 주어진다. (1 ≤ M ≤ N ≤ 8)
+
+    출력
+        한 줄에 하나씩 문제의 조건을 만족하는 수열을 출력한다. 중복되는 수열을 여러 번 출력하면 안되며, 각 수열은 공백으로 구분해서 출력해야 한다.
+        수열은 사전 순으로 증가하는 순서로 출력해야 한다.
+
+    예제 입력 1
+    3 1
+    예제 출력 1
+    1
+    2
+    3
+
+    예제 입력 2
+    4 2
+    예제 출력 2
+    1 2
+    1 3
+    1 4
+    2 1
+    2 3
+    2 4
+    3 1
+    3 2
+    3 4
+    4 1
+    4 2
+    4 3
+ */
+public class Main1 {
+    public static boolean[] c = new boolean[10]; // 어떤수를 사용했는지 체크하기 위한 배열
+    public static int[] a = new int[10];
+
+    public static void go(int index, int n, int m) {
+        if (m == index) {
+            for (int i = 0; i < m; i++) {
+                System.out.print(a[i]);
+                if (i != m - 1) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+            return;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            if (c[i]) { // 사용한 수는 넘어감
+                continue;
+            }
+            c[i] = true;    // 사용함
+            a[index] = i;
+            go(index + 1, n ,m);
+            c[i] = false;   // 위의 탐색이 끝났으니 다시 false
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int m = scanner.nextInt();
+        go(0, n, m);
+    }
+
+}
