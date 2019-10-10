@@ -1,6 +1,9 @@
 package graph_bfs.deque;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
 
 /*
     문제
@@ -21,45 +24,43 @@ import java.util.*;
     힌트
     수빈이가 5-10-9-18-17 순으로 가면 2초만에 동생을 찾을 수 있다.
  */
-public class Main1 {
+// 큐 두개 이용
+public class Main2 {
     static final int MAX = 1000000;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int m = scanner.nextInt();
-        int[] dist = new int[MAX];
-        boolean[] check = new boolean[MAX];
-        dist[n] = 0;
-        check[n] = true;
-        ArrayDeque<Integer> q = new ArrayDeque<Integer>();
+        boolean[] c = new boolean[MAX];
+        int[] d = new int[MAX];
+        c[n] = true;
+        d[n] = 0;
+        Queue<Integer> q = new LinkedList<Integer>();
+        Queue<Integer> next_q = new LinkedList<Integer>();
         q.add(n);
         while (!q.isEmpty()) {
-            int now = q.poll();
-            if (now * 2 < MAX) {    // * 가 제일 먼저 나와야함..... 0 초부터 먼저 처리
-                if (!check[now * 2]) {
-                    q.addFirst(now * 2);
-                    check[now * 2] = true;
-                    dist[now * 2] = dist[now];
+            int now = q.remove();
+            for (int next : new int[] {now * 2, now - 1, now + 1}) {
+                if (next >= 0 && next < MAX) {
+                    if (!c[next]) {
+                        c[next] = true;
+                        if (now * 2 == next) {
+                            q.add(next);
+                            d[next] = d[now];
+                        } else {
+                            next_q.add(next);
+                            d[next] = d[now] + 1;
+                        }
+                    }
                 }
             }
-            if (now - 1 >= 0) {
-                if (!check[now - 1]) {
-                    q.addLast(now - 1);
-                    check[now - 1] = true;
-                    dist[now - 1] = dist[now] + 1;
-                }
+            if (q.isEmpty()) {
+                q = next_q;
+                next_q = new LinkedList<Integer>();
             }
-            if (now + 1 < MAX) {
-                if (!check[now + 1]) {
-                    q.addLast(now + 1);
-                    check[now + 1] = true;
-                    dist[now + 1] = dist[now] + 1;
-                }
-            }
-
         }
-        System.out.println(dist[m]);
+        System.out.println(d[m]);
     }
 
 }
