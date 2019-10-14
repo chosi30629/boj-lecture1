@@ -1,5 +1,6 @@
 package dp.dp1;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -62,6 +63,7 @@ public class Main6 {
                     d[i] = d[i-j] + a[j];
                 }
             }
+            System.out.println(Arrays.toString(d));
         }
         System.out.println(d[n]);
     }
